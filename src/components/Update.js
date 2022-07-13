@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
-const cohortName = '2204-FTB-ET-WEB-PT';
-const APIURL = `https://strangers-things.herokuapp.com/api/${cohortName}`;
+import { APIURL } from '..';
 
 const Update =({posts, setPosts, postId, setPostId}) => {
     const [title, setTitle] = useState([]);
     const [description, setDescription] = useState([]);
+    const [price, setPrice] = useState('');
+    const [location, setLocation] = useState('');
+    const [willDeliver, setWillDeliver] = useState(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -15,15 +17,20 @@ const Update =({posts, setPosts, postId, setPostId}) => {
                 'Content-type': 'Application/json',
             },
             body: JSON.stringify({
-                title,
-                description,
+                post: {
+                    title,
+                    description,
+                    price,
+                    location,
+                    willDeliver,
+                }
             })
         });
-        const data = await response.json();
-        if (data && data.title) {
+        const result = await response.json();
+        if (result && result.title) {
             const newPosts = posts.map(post => {
                 if (posts._id === postId) {
-                    return data;
+                    return result;
                 } else {
                     return post;
                 }
@@ -32,6 +39,9 @@ const Update =({posts, setPosts, postId, setPostId}) => {
             setTitle('');
             setDescription('');
             setPostId(null);
+            setPrice('');
+            setLocation('');
+            setWillDeliver(false)
         }
     }
 
@@ -40,8 +50,36 @@ const Update =({posts, setPosts, postId, setPostId}) => {
             Update a Post
         </h3>
         <form onSubmit={handleSubmit}>
-            <input type="text" placeholder="Title" value={title} onChange={(event) => setTitle(event.target.value)}></input>
-            <input type="text" placeholder="Description" value={description} onChange={(event) => setDescription(event.target.value)}></input>
+            <input
+                type="text"
+                placeholder="Title"
+                value={title}
+                onChange={(event) => setTitle(event.target.value)}>
+            </input>
+            <input
+                type="text"
+                placeholder="Description"
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}>
+            </input>
+            <input
+                type="text"
+                placeholder="Price"
+                value={price}
+                onChange={(event) => setPrice(event.target.value)}>
+            </input>
+            <input
+                type="text"
+                placeholder="Location"
+                value={location}
+                onChange={(event) => setLocation(event.target.value)}>
+            </input>
+            <input
+                type="text"
+                placeholder="Will Deliver?"
+                value={willDeliver}
+                onChange={(event) => setWillDeliver(event.target.value)}>
+            </input>
             <button type="submit" className="btn-outline-primary">Submit</button>
         </form>
     </>

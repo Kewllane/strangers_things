@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { APIURL } from '../index';
 
@@ -24,7 +25,7 @@ async function registerUser(username, password) {
    
 
 function Register({ setToken, setUserName, setPassword, username, password }) {
-
+  const history = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = await registerUser(
@@ -37,6 +38,7 @@ function Register({ setToken, setUserName, setPassword, username, password }) {
     console.log("setToken in Register", setToken)
     localStorage.setItem("token", JSON.stringify(token))
     setToken(token);
+    history('/HomePage')
   }
 
   return(
@@ -50,6 +52,10 @@ function Register({ setToken, setUserName, setPassword, username, password }) {
         <p>Password</p>
         <input type="password" onChange={e => setPassword(e.target.value)}/>
       </label>
+      {/* <label>
+        <p>Re-Enter Password</p>
+        <input type="password" onChange={e => setPassword(e.target.value)}/>
+      </label> */}
       <div>
         <button type="submit">Submit</button>
       </div>
