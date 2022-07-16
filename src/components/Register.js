@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { APIURL } from '../index';
@@ -36,10 +36,11 @@ function Register({ setToken, setUserName, setPassword, username, password }) {
     console.log("data", data)
     console.log("Token in Register", token)
     console.log("setToken in Register", setToken)
-    localStorage.setItem("token", JSON.stringify(token))
+    sessionStorage.setItem("token", JSON.stringify(token))
     setToken(token);
     history('/HomePage')
-  }
+    alert("New Account Registered!")
+  };
 
   return(
     <form onSubmit={handleSubmit}>

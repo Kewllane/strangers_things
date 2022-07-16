@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import { APIURL } from '..';
 
-const Update =({posts, setPosts, postId, setPostId}) => {
+const Update =({posts, setPosts, postId, setPostId, token}) => {
+    const history = useNavigate();
     const [title, setTitle] = useState([]);
     const [description, setDescription] = useState([]);
     const [price, setPrice] = useState('');
@@ -15,6 +17,7 @@ const Update =({posts, setPosts, postId, setPostId}) => {
             method: 'PATCH',
             headers: {
                 'Content-type': 'Application/json',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
                 post: {
@@ -75,12 +78,13 @@ const Update =({posts, setPosts, postId, setPostId}) => {
                 onChange={(event) => setLocation(event.target.value)}>
             </input>
             <input
-                type="text"
-                placeholder="Will Deliver?"
+                type="checkbox"
+                id="willDeliver"
                 value={willDeliver}
                 onChange={(event) => setWillDeliver(event.target.value)}>
             </input>
-            <button type="submit" className="btn-outline-primary">Submit</button>
+            <label className="willDeliver">Will deliver?</label>
+            <button type="submit" className="btn-outline-primary" >Edit</button>
         </form>
     </>
 }

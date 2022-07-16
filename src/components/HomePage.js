@@ -1,13 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import Create from './Create'
-import Update from './Update'
+import Message from './Message';
+
 import { APIURL } from '..';
 
 const HomePage =({ token }) => {
     const [posts, setPosts] = useState([]);
     const [postId, setPostId] = useState(null)
-    const [username, setUserName] = useState();
-    const [password, setPassword] = useState();
 
     useEffect(() => {
         const fetchAllPosts = async () => {
@@ -18,27 +16,12 @@ const HomePage =({ token }) => {
         fetchAllPosts();
     }, [])
     
-    const handleDelete = async (postIdToDelete) => {
-        const response = await fetch(`${APIURL}/posts/${postIdToDelete}`, {
-            method: 'DELETE',
-        });
-        const data = await response.json();
-        if(data) {
-            const newPosts = posts.filter(post => post.id !== postIdToDelete);
-            setPosts(newPosts);
-        }
-    }
-    
     return (
         <div>
             <header>
                 <h1>Home Page</h1>
             </header>
-            {
-                postId
-                    ? <Update posts={posts} setPosts={setPosts} postId={postId} setPostId={setPostId} />
-                    : <Create posts={posts} setPosts={setPosts} token={token} />
-            }
+            <h2>Posts</h2>
             {
                 posts.map(post => <div key={post._id}>
                     <h3>{post.title}</h3>
@@ -46,12 +29,12 @@ const HomePage =({ token }) => {
                     <div>{post.location}</div>
                     <div>{post.price}</div>
                     <div>{post.willDeliver}</div>
-                    <button type="button" className="btn btn-outline-primary" onClick={() => setPostId(post._id)}>Edit</button>
-                    <button type="button" className="btn btn-outline-danger" onClick={() => handleDelete(post._id)}>Delete</button>
+                    {token ? (
+                    <Message />
+                    ) : ("Login to Message User About This Item")}
                 </div>)
             }
         </div>
-
     )
 }
 

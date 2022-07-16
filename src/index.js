@@ -7,6 +7,8 @@ import Update from './components/Update';
 import Register from './components/Register';
 import Login from './components/Login';
 import UserPage from './components/UserPage'
+import Inbox from './components/Inbox'
+import Logout from './components/Logout'
 
 export const cohortName = '2204-FTB-ET-WEB-PT';
 export const APIURL = `https://strangers-things.herokuapp.com/api/${cohortName}`;
@@ -15,7 +17,7 @@ const App = () => {
     const [posts, setPosts] = useState([]);
     const [postId, setPostId] = useState(null);
     const [token, setToken] = useState();
-    const [username, setUserName] = useState();
+    const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
     useEffect(() => {
@@ -35,39 +37,59 @@ const App = () => {
         }
     }
 
-    async function handleLogout() {
-        setToken('');
-        sessionStorage.removeItem('token')
-    }
+
 
     return ( 
         <Router>
             <div className="app">
                 <div id="navbar">
-                    <Link to="/HomePage">Home</Link>
-                    <Link to="/Login">Login</Link>
-                    <Link to="/Register">Register</Link>
+                    <nav>
+                        {!token ? (<>
+                        <Link to="/Register">Register</Link>
+                        <Link to="/Login">Login</Link>
+                        </>
+                        ) : ('')}
+                        <Link to="/HomePage">Home</Link>
+                        {token ? (<>
+                        <Link to="/UserPage">Profile</Link>
+                        <Link to="/Inbox">Inbox</Link> 
+                        <Link to="/Logout">Logout</Link>
+                        </>
+                        ) : ('')}
+                    </nav>
                 </div>
                 <header className ="header">
                     <h1>Strangers Things</h1>
                 </header>
                 <Routes>
-                    <Route path="/" element={<Login/>}></Route>>
-                    <Route path="/HomePage" element={<HomePage token={token}/>}></Route>
-                    {/* <Route path="/UserPage" element={<UserPage />}></Route> */}
+                    <Route path="/" element={<HomePage/>}></Route>>
+                    <Route path="/HomePage" element={<HomePage
+                        token={token}/>}>
+                    </Route>
                     <Route path="/Login" element={<Login
                         setToken={setToken}
-                        setUserName={setUserName}
+                        setUsername={setUsername}
                         username={username}
                         password={password}
                         setPassword={setPassword} />}>
                     </Route>
                     <Route path="/Register" element={<Register
+                        token={token}
                         setToken={setToken}
-                        setUserName={setUserName}
+                        setUsername={setUsername}
                         username={username}
                         password={password}
                         setPassword={setPassword} />}>
+                    </Route>
+                    <Route path="/UserPage" element={<UserPage
+                        token={token}/>}>
+                    </Route>
+                    <Route path="/Inbox" element={<Inbox
+                        token={token}/>}>
+                    </Route>
+                    <Route path="Logout" element={<Logout
+                        token={token}
+                        setToken={setToken}/>}>
                     </Route>
                 </Routes>
             </div>

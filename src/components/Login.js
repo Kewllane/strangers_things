@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { APIURL } from '../index';
@@ -24,7 +24,7 @@ async function loginUser(username, password) {
    }
    
 
-function Login({ setToken, setUserName, setPassword, username, password }) {
+function Login({ setToken, setUsername, setPassword, username, password }) {
   const history = useNavigate()
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -36,8 +36,8 @@ function Login({ setToken, setUserName, setPassword, username, password }) {
       if (token) {
       sessionStorage.setItem("token", JSON.stringify(token))
       setToken(token);
-      history('/HomePage')
-      alert("message")
+      history('/UserPage')
+      alert("Logged In!")
     } else {
       alert("Incorrect Information")
     }} catch (error) {
@@ -51,7 +51,7 @@ function Login({ setToken, setUserName, setPassword, username, password }) {
         <h2> Please Log In</h2>
         <label>
           <p>Username</p>
-          <input type="text"  onChange={e => setUserName(e.target.value)} />
+          <input type="text"  onChange={e => setUsername(e.target.value)} />
         </label>
         <label>
           <p>Password</p>

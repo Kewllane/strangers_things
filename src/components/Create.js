@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+
 import { APIURL } from '..';
 
 const Create = ({posts, setPosts, token}) => {
-    const [title, setTitle] = useState([]);
-    const [description, setDescription] = useState ([]);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState ('');
     const [price, setPrice] = useState('');
     const [location, setLocation] = useState ('');
     const [willDeliver, setWillDeliver] = useState(false)
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        console.log(`Bearer ${token}`)
         const response = await fetch (`${APIURL}/posts`, {
             method: 'POST',
             headers: {
@@ -17,11 +19,13 @@ const Create = ({posts, setPosts, token}) => {
                 'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify({
-                title,
-                description,
-                price,
-                location,
-                willDeliver,
+                post: {
+                    title,
+                    description,
+                    price,
+                    location,
+                    willDeliver
+                }
             })
         });
         const result = await response.json();
@@ -66,7 +70,8 @@ const Create = ({posts, setPosts, token}) => {
                 id="willDeliver"
                 value={willDeliver}
                 onChange={(event) => setWillDeliver(event.target.value)}>
-            </input><label className="willDeliver">Will deliver?</label>
+            </input>
+            <label className="willDeliver">Will deliver?</label>
             <button type="submit" className=" btn btn-outline-primary">Submit</button>
         </form>
     </>
