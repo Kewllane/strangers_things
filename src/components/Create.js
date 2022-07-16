@@ -4,9 +4,9 @@ import { APIURL } from '..';
 
 const Create = ({posts, setPosts, token}) => {
     const [title, setTitle] = useState('');
-    const [description, setDescription] = useState ('');
+    const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
-    const [location, setLocation] = useState ('');
+    const [location, setLocation] = useState('');
     const [willDeliver, setWillDeliver] = useState(false)
 
     const handleSubmit = async (event) => {

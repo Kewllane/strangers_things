@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
 
 import { APIURL } from '..';
 
 const Update =({posts, setPosts, postId, setPostId, token}) => {
-    const history = useNavigate();
-    const [title, setTitle] = useState([]);
-    const [description, setDescription] = useState([]);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
     const [location, setLocation] = useState('');
-    const [willDeliver, setWillDeliver] = useState(null);
+    const [willDeliver, setWillDeliver] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();

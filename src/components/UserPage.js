@@ -15,11 +15,10 @@ const UserPage =({ token }) => {
                     'Authorization': `Bearer ${token}`,
                 },
             });
-            const data = await response.json();
-            if (data) {
-                const activePost = data.data.posts.filter(
-                    (post) => post.active === true
-                );
+            const result = await response.json();
+            if (result) {
+                const activePost = result.data.posts.filter(
+                    (post) => post.active === true)
                 setPosts(activePost);
             }
         };
