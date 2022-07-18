@@ -1,10 +1,12 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { APIURL } from '..';
 
 const Message = ({ token, postId}) => {
     const [content, setContent] = useState('');
     const [message, setMessage] = useState([]);
+    const history = useNavigate();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -22,6 +24,8 @@ const Message = ({ token, postId}) => {
         })
         const result = await response.json();
         setMessage ([result.data.message, ...message]);
+        setContent('');
+        history('/Inbox');
     }
 
     return (
@@ -30,13 +34,13 @@ const Message = ({ token, postId}) => {
                 <input
                     type="text"
                     placeholder="Message"
-                    value={message}
-                    onChange={(event) => setMessage(event.target.value)}>
+                    value={content}
+                    onChange={(event) => setContent(event.target.value)}>
                 </input>
-                <button type="button" className="btnMessage">Message</button>
+                <button type="submit" className="btnMessage">Message{' '}</button>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default Message

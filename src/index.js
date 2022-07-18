@@ -9,6 +9,7 @@ import Login from './components/Login';
 import UserPage from './components/UserPage'
 import Inbox from './components/Inbox'
 import Logout from './components/Logout'
+import Typography from '@mui/material/Typography';
 
 export const cohortName = '2204-FTB-ET-WEB-PT';
 export const APIURL = `https://strangers-things.herokuapp.com/api/${cohortName}`;
@@ -19,6 +20,7 @@ const App = () => {
     const [token, setToken] = useState();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [postsToDisplay, setPostsToDisplay] = useState([])
 
     useEffect(() => {
         onLoad();
@@ -37,34 +39,46 @@ const App = () => {
         }
     }
 
-
-
     return ( 
         <Router>
             <div className="app">
                 <div id="navbar">
-                    <nav>
+                    <Typography sx= {{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-end',
+                    }}>
+                        <Link to="/HomePage">Home</Link>
                         {!token ? (<>
-                        <Link to="/Register">Register</Link>
                         <Link to="/Login">Login</Link>
+                        <Link to="/Register">Register</Link>
                         </>
                         ) : ('')}
-                        <Link to="/HomePage">Home</Link>
+
                         {token ? (<>
                         <Link to="/UserPage">Profile</Link>
                         <Link to="/Inbox">Inbox</Link> 
                         <Link to="/Logout">Logout</Link>
                         </>
                         ) : ('')}
-                    </nav>
+                    </Typography>
                 </div>
-                <header className ="header">
-                    <h1>Strangers Things</h1>
-                </header>
+                <Typography  variant='h2' component='div' sx= {{
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}>
+                    Strangers Things
+                </Typography>
                 <Routes>
-                    <Route path="/" element={<HomePage/>}></Route>>
+                    <Route path="/" element={<HomePage
+                        posts={postsToDisplay}
+                        setPosts={setPosts}
+                        setPostsToDisplay={setPostsToDisplay}/>}></Route>
                     <Route path="/HomePage" element={<HomePage
-                        token={token}/>}>
+                        token={token}
+                        posts={postsToDisplay}
+                        setPosts={setPosts}
+                        setPostsToDisplay={setPostsToDisplay}/>}>
                     </Route>
                     <Route path="/Login" element={<Login
                         setToken={setToken}
@@ -87,7 +101,7 @@ const App = () => {
                     <Route path="/Inbox" element={<Inbox
                         token={token}/>}>
                     </Route>
-                    <Route path="Logout" element={<Logout
+                    <Route path="/Logout" element={<Logout
                         token={token}
                         setToken={setToken}/>}>
                     </Route>

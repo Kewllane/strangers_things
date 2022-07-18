@@ -1,4 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import * as React from 'react';
+import {useState, useEffect} from 'react';
+import { CardActions } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Grid from '@mui/material/Grid';
+import { Container } from '@mui/system'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button';
 import Create from './Create'
 import Update from './Update'
 import { APIURL } from '..';
@@ -42,25 +51,51 @@ const UserPage =({ token }) => {
     
     return (
         <div>
-            <header>
-                <h1>Profile</h1>
-            </header>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}>
+                <Typography component='h2' variant='h3'
+                >Profile</Typography>
+            </Box>
             {
                 postId
                     ? <Update posts={posts} setPosts={setPosts} postId={postId} setPostId={setPostId} token={token} />
                     : <Create posts={posts} setPosts={setPosts} token={token} />
             }
-            {
-                posts.map(post => <div key={post._id}>
-                    <h3>{post.title}</h3>
-                    <div>{post.description}</div>
-                    <div>{post.location}</div>
-                    <div>{post.price}</div>
-                    <div>{post.willDeliver}</div>
-                    <button type="button" className="btn btn-outline-primary" onClick={() => setPostId(post._id)}>Edit</button>
-                    <button type="button" className="btn btn-outline-danger" onClick={() => handleDelete(post._id)}>Delete</button>
-                </div>)
-            }
+            <Grid
+                container
+                spacing={{ xs: 2, md: 3 }}
+                columns={{ xs: 4, sm: 8, md: 12 }}>
+                {posts.map((post) => (
+                 <Grid key={post._id} item xs={12} md={6} sm={4} >
+                    <Card
+                       variant='outlined'
+                       sx={{
+                          display: 'flex',
+                          backgroundColor: 'aliceblue',
+                          boxShadow: '5px 5px grey',
+                       }}>
+                       <CardContent sx={{ flex: 1 }} key={post._id}>
+                          <Typography component='h2' variant='h5'>
+                             {post.title}
+                          </Typography>
+                          <Typography variant='subtitle1'>
+                             {post.description}
+                          </Typography>
+                          <Typography variant='subtitle2'>
+                             {post.location},{post.price},{post.willDeliver}
+                          </Typography>
+                       </CardContent>
+                       <CardActions>
+                            <Button onClick={() => setPostId(post._id)}>Edit</Button>
+                            <Button onClick={() => handleDelete(post._id)}>Delete</Button>
+                       </CardActions>
+                    </Card>
+                 </Grid>
+              ))}
+           </Grid>
         </div>
 
     )

@@ -1,4 +1,12 @@
+import { Checkbox, CssBaseline } from '@mui/material';
 import React, { useState } from 'react';
+import Button from '@mui/material/Button'
+import { Container } from '@mui/system'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import FormGroup from '@mui/material/FormGroup'
+import TextField from '@mui/material/TextField'
+import FormControlLabel from '@mui/material/FormControlLabel'
 
 import { APIURL } from '..';
 
@@ -47,43 +55,58 @@ const Update =({posts, setPosts, postId, setPostId, token}) => {
     }
 
     return <>
-        <h3>
-            Update a Post
-        </h3>
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                placeholder="Title"
-                value={title}
-                onChange={(event) => setTitle(event.target.value)}>
-            </input>
-            <input
-                type="text"
-                placeholder="Description"
-                value={description}
-                onChange={(event) => setDescription(event.target.value)}>
-            </input>
-            <input
-                type="text"
-                placeholder="Price"
-                value={price}
-                onChange={(event) => setPrice(event.target.value)}>
-            </input>
-            <input
-                type="text"
-                placeholder="Location"
-                value={location}
-                onChange={(event) => setLocation(event.target.value)}>
-            </input>
-            <input
-                type="checkbox"
-                id="willDeliver"
-                value={willDeliver}
-                onChange={(event) => setWillDeliver(event.target.value)}>
-            </input>
-            <label className="willDeliver">Will deliver?</label>
-            <button type="submit" className="btn-outline-primary" >Edit</button>
-        </form>
+        <Container component='main' maxWidth='xs'>
+            <CssBaseline />
+            <Box
+                sx={{
+                    marginTop: 8,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}>
+            <Typography component='h1' variant='h4'>
+                Update a Post
+            </Typography> 
+            <Box component='form' onSubmit={handleSubmit}>
+                <TextField
+                    type="text"
+                    placeholder="Title"
+                    value={title}
+                    onChange={(event) => setTitle(event.target.value)}>
+                </TextField>
+                <TextField
+                    type="text"
+                    placeholder="Description"
+                    value={description}
+                    onChange={(event) => setDescription(event.target.value)}>
+                </TextField>
+                <TextField
+                    type="text"
+                    placeholder="Price"
+                    value={price}
+                    onChange={(event) => setPrice(event.target.value)}>
+                </TextField>
+                <TextField
+                    type="text"
+                    placeholder="Location"
+                    value={location}
+                    onChange={(event) => setLocation(event.target.value)}>
+                </TextField>
+                <TextField
+                    type="checkbox"
+                    id="willDeliver"
+                    value={willDeliver}
+                    onChange={(event) => setWillDeliver(event.target.value)}>
+                </TextField>
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox defaultChecked />} label="Will Deliver?" />
+                </FormGroup>
+                <Button sx={{
+                    m: 2
+                }} type="submit" variant='outlined' >Edit</Button>
+            </Box>
+        </Box>
+        </Container>
     </>
 }
 
